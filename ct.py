@@ -1,5 +1,4 @@
-import os
-import subprocess
+import subprocess, re, time
 
 welcomeMsg = """
    ____                           _____ _                
@@ -18,6 +17,26 @@ def runcmd(process):
 
 def main():
     print(f"{welcomeMsg}")
-    print(runcmd("netsh wlan show networks"))
+    base_proc = runcmd("netsh wlan show networks")
+    raw_proc = re.findall("SSID \d : (.*)\r", base_proc)
+    for ssid in raw_proc:
+        x = 0
+        print(f"[{x}] {ssid}")
+        x += 1
+
+    try:
+        userInput = int(input("\nPlease select and SSID to connect: "))
+    except:
+        print("[ERROR] Incorrect Input")
+        time.sleep(2)
+        exit()
+
+    if userInput < x:
+        print(raw_proc[userInput])
+    else:
+        print("[ERROR] Incorrect Option")
+        time.sleep(2)
+        exit()
+
 
 main()
