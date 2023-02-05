@@ -15,6 +15,13 @@ def runcmd(process):
     sub_proc = subprocess.run(process_list,capture_output=True).stdout.decode()
     return sub_proc
 
+def connect_wifi(name):
+    try:
+        proc_log = subprocess.run(['netsh', 'wlan', 'connect', name],capture_output=True).stdout.decode()
+        print(f"Successfully connected to {name}\n")
+    except:
+        print("[ERROR] Cannot connect")
+
 def main():
     print(f"{welcomeMsg}")
     base_proc = runcmd("netsh wlan show networks")
@@ -32,7 +39,7 @@ def main():
         exit()
 
     if userInput < x:
-        print(raw_proc[userInput])
+        connect_wifi(raw_proc[userInput])
     else:
         print("[ERROR] Incorrect Option")
         time.sleep(2)
