@@ -1,4 +1,4 @@
-import subprocess, re, time
+import subprocess, re, time, os
 
 welcomeMsg = """
    ____                           _____ _                
@@ -34,14 +34,14 @@ def main():
     except:
         print("[ERROR] Incorrect Input")
         time.sleep(2)
-        exit()
+        os._exit(0)
 
     if userInput < len(raw_proc):
         connect_wifi(raw_proc[userInput])
     else:
         print("[ERROR] Incorrect Option")
         time.sleep(2)
-        exit()
+        os._exit(0)
 
 
 main()
