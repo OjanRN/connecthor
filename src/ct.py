@@ -26,10 +26,8 @@ def main():
     print(f"{welcomeMsg}")
     base_proc = runcmd("netsh wlan show networks")
     raw_proc = re.findall("SSID \d : (.*)\r", base_proc)
-    for ssid in raw_proc:
-        x = 0
-        print(f"[{x}] {ssid}")
-        x += 1
+    for i in range(len(raw_proc)):
+        print(f"{i} | {raw_proc[i]}")
 
     try:
         userInput = int(input("\nPlease select and SSID to connect: "))
@@ -38,7 +36,7 @@ def main():
         time.sleep(2)
         exit()
 
-    if userInput < x:
+    if userInput < len(raw_proc):
         connect_wifi(raw_proc[userInput])
     else:
         print("[ERROR] Incorrect Option")
