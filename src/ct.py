@@ -22,10 +22,21 @@ def connect_wifi(name):
     except:
         print("[ERROR] Cannot connect")
 
+def check_connection():
+    raw_proc = subprocess.run(['netsh', 'wlan', 'show', 'interface'],capture_output=True).stdout.decode()
+    status_proc = re.findall("State                  : (.*)\r", raw_proc)
+    if status_proc[0] == "connected":
+        disconnect_cmd = runcmd("netsh wlan disconnect")
+        time.sleep(2.5)
+
 def main():
     print(f"{welcomeMsg}")
+    check_connection()
     base_proc = runcmd("netsh wlan show networks")
     raw_proc = re.findall("SSID \d : (.*)\r", base_proc)
+    if len(raw_proc) == 1:
+        print("[LOG] There are currently no available networks to connect to")
+        exit()
     for i in range(len(raw_proc)):
         print(f"{i} | {raw_proc[i]}")
 
